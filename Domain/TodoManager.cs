@@ -4,23 +4,23 @@ namespace TodoApp
 {
     class TodoManager
     {
-        List<Todo> todoItems = new List<Todo>();
+        List<TodoItem> listOfTodoItems = new List<TodoItem>();
 
         public void AddTodoItem(string title)
         {
-            Todo newTodoItem = new Todo();
-            newTodoItem.title = title;
-            todoItems.Add(newTodoItem);
+            TodoItem newTodoItem = new TodoItem();
+            newTodoItem.Title = title;
+            listOfTodoItems.Add(newTodoItem);
         }
 
         public void SetTodoItem(int index, bool isDone)
         {
-            todoItems[index].isDone = isDone;
+            listOfTodoItems[index].IsDone = isDone;
         }
 
         public void RemoveTodoItem(int index)
         {
-            todoItems.RemoveAt(index);
+            listOfTodoItems.RemoveAt(index);
         }
     }
 }

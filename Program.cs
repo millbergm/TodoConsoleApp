@@ -9,6 +9,7 @@ namespace TodoApp
         {
             TodoManager todoManager = new TodoManager();
 
+            //Test-code, add user interface here later
             todoManager.AddTodoItem("Rasta hunden");
             todoManager.AddTodoItem("Rasta den andra hunden");
             todoManager.AddTodoItem("Rasta papegojan");

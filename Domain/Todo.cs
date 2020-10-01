@@ -1,9 +1,12 @@
+using System;
+using System.Collections.Generic;
+
 namespace TodoApp
 {
-    class Todo
+    class TodoItem
     {
-        public string title = "no title";
-        public bool isDone;
-        public System.DateTime deadline;
+        public string Title { get; set; }
+        public bool IsDone { get; set; }
+        public DateTime Deadline { get; set; } //Not yet used for anything
     }
 }

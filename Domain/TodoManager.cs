@@ -1,26 +1,42 @@
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace TodoApp
 {
     class TodoManager
     {
-        List<TodoItem> listOfTodoItems = new List<TodoItem>();
-
-        public void AddTodoItem(string title)
+        private readonly string connectionString;
+        
+        public TodoManager(string connectionString)
         {
-            TodoItem newTodoItem = new TodoItem();
-            newTodoItem.Title = title;
-            listOfTodoItems.Add(newTodoItem);
+            this.connectionString = connectionString;
         }
 
-        public void SetTodoItem(int index, bool isDone)
+        public IEnumerable<TodoItem> GetTodoItems()
         {
-            listOfTodoItems[index].IsDone = isDone;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<TodoItem>("SELECT Id, Created, Title FROM Todo");
+            }
         }
 
-        public void RemoveTodoItem(int index)
+        public void AddTodoItem(TodoItem todo)
         {
-            listOfTodoItems.RemoveAt(index);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("INSERT INTO Todo (Title) values (@Title)", todo);
+            }
         }
+
+        public void RemoveTodoItem(int todoId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("DELETE FROM Todo WHERE Id = @Id", new { Id = todoId });
+            }
+        }
+        
+        
     }
 }

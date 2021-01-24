@@ -17,7 +17,7 @@ namespace TodoApp
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<TodoItem>("SELECT Id, Created, Title FROM Todo");
+                return connection.Query<TodoItem>("SELECT Id, Created, Deadline, Title FROM Todo");
             }
         }
 
@@ -25,7 +25,7 @@ namespace TodoApp
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Execute("INSERT INTO Todo (Title) values (@Title)", todo);
+                connection.Execute("INSERT INTO Todo (Title, Deadline) values (@Title, @Deadline)", todo);
             }
         }
 

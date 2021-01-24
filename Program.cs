@@ -40,8 +40,60 @@ namespace TodoApp
                         }
                         Console.WriteLine("Info: ");
                         atodo.Info = Console.ReadLine();
+                        Console.WriteLine("Vill du ha en Deadline? Y/N: ");
+                        val = Console.ReadKey().Key;
+                        switch (val)
+                        {
+                            case ConsoleKey.Y:
+                                int year, month, day;
+                                Console.Write("År YYYY: ");
+                                string år = Console.ReadLine();
+                                while (true)
+                                {
+                                    try
+                                    {
+                                        year = Int32.Parse(år);
+                                        break;
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Felaktigt Input!");
+                                    }
+                                }
+                                Console.Write("Månad MM: ");
+                                string månad = Console.ReadLine();
+                                while (true)
+                                {
+                                    try
+                                    {
+                                        month = Int32.Parse(månad);
+                                        break;
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Felaktigt Input!");
+                                    }
+                                }
+                                Console.Write("Dag DD: ");
+                                string dag = Console.ReadLine();
+                                while (true)
+                                {
+                                    try
+                                    {
+                                        day = Int32.Parse(dag);
+                                        break;
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Felaktigt Input!");
+                                    }
+                                }
+                                atodo.Deadline = new DateTime(year, month, day);
+                                break;
+                        }
                         db.AddTodoItem(atodo);
                         displayTodoList(db);
+                        PauseProgram();
                         break;
 
                     case ConsoleKey.C:
@@ -75,9 +127,21 @@ namespace TodoApp
 
         private static void displayTodoList(TodoManager db)
         {
+            Console.WriteLine("ID* Skapad         * Deadline * Titel");
             foreach (var todo in db.GetTodoItems())
             {
-                Console.WriteLine($"{todo.Id} {todo.Created.ToString("yy-MM-dd H:mm")} {todo.Title}");
+                if (todo.Deadline < todo.Created)
+                {
+                    Console.WriteLine($"{todo.Id} * {todo.Created.ToString("yy-MM-dd H:mm")} *          * {todo.Title}");
+                }
+                else if (todo.Deadline < DateTime.Now)
+                {
+                    Console.WriteLine($"{todo.Id} * {todo.Created.ToString("yy-MM-dd H:mm")} * {todo.Deadline.ToString("yy-MM-dd")} * {todo.Title}");
+                }
+                else
+                {
+                    Console.WriteLine($"{todo.Id} * {todo.Created.ToString("yy-MM-dd H:mm")} * {todo.Deadline.ToString("yy-MM-dd")} * {todo.Title}");
+                }
             }
         }
 
@@ -85,8 +149,9 @@ namespace TodoApp
         {
             Console.Clear();
             Console.Write("\n");
-            Console.WriteLine("- Din ToDo-Lista        -");
-            Console.WriteLine("-------------------------");
+            Console.WriteLine("*************************");
+            Console.WriteLine("* Din ToDo-Lista        *");
+            Console.WriteLine("*************************");
             Console.WriteLine("- [A] Kolla ToDo-Listan -");
             Console.WriteLine("- [B] Ny ToDo           -");
             Console.WriteLine("- [C] Ta Bort ToDo      -");
